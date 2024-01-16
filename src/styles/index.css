@@ -45,6 +45,7 @@ img {
 
 .flex {
   display: flex;
+  gap: 1rem;
 }
 
 .between {
@@ -54,4 +55,8 @@ img {
 
 .tac {
   text-align: center;
+}
+
+.f-wrap {
+  flex-wrap: wrap;
 }

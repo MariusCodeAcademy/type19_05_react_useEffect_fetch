@@ -8,14 +8,25 @@ export default function Posts() {
   // getPosts(); // gausim infinite loop jei getPosts keicia state
 
   useEffect(() => {
-    getPosts();
+    getPostsDummy();
   }, []);
 
-  function getPosts() {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+  // function getPosts() {
+  //   fetch('https://jsonplaceholder.typicode.com/posts')
+  //     .then((resp) => resp.json())
+  //     .then((gotPostsArr) => {
+  //       setPostsArr(gotPostsArr.slice(0, 10));
+  //     })
+  //     .catch((error) => {
+  //       console.warn('ivyko klaida:', error);
+  //     });
+  // }
+  function getPostsDummy() {
+    fetch('https://dummyjson.com/posts')
       .then((resp) => resp.json())
-      .then((gotPostsArr) => {
-        setPostsArr(gotPostsArr);
+      .then((gotObjBack) => {
+        console.log('gotPostsArr ===', gotObjBack);
+        setPostsArr(gotObjBack.posts);
       })
       .catch((error) => {
         console.warn('ivyko klaida:', error);
@@ -30,7 +41,17 @@ export default function Posts() {
           <li className='card' key={post.id}>
             <p>postId: {post.id}</p>
             <h3>{post.title}</h3>
-            <p>{post.body}</p>
+            <p>{post.body.slice(0, 85)}...</p>
+            <p>Likes: {post.reactions}</p>
+            <hr />
+            <h4>Tags</h4>
+            <ul className='unlisted flex f-wrap'>
+              {post.tags.map((tag) => (
+                <li key={tag} className='tag'>
+                  {tag}
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>

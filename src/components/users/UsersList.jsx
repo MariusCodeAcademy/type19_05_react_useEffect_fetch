@@ -6,6 +6,7 @@ export default function UsersList() {
   console.log('1. UsersList susikure');
 
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   // parisiusti duomenis is api
   // 1. sukurti state kur bus saugomi duomenys
@@ -16,9 +17,16 @@ export default function UsersList() {
   // useEffect(fn, [priklausomybiu masyvas])
   useEffect(() => {
     console.log('3. ivyko useEffect');
-    getUsers();
+    // getUsers();
+
+    setIsLoading(true);
+    setTimeout(() => {
+      getUsers();
+    }, 3000);
+
     // fetch https://jsonplaceholder.typicode.com/users
     function getUsers() {
+      // setIsLoading(true);
       fetch(usersUrl)
         .then((resp) => resp.json())
         .then((gotUserArr) => {
@@ -32,6 +40,9 @@ export default function UsersList() {
         .catch((error) => {
           console.warn('ivyko klaida:', error);
           setError('Ivyko klaida, bandykite veliau');
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, []);
@@ -50,6 +61,7 @@ export default function UsersList() {
       </p>
       {error && <h3>{error}</h3>}
       {usersArr.length === 0 && <h3>No users found</h3>}
+      {isLoading === true && <h1>Loading...</h1>}
       <ul>
         {usersArr.map((uObj) => (
           <li key={uObj.id}>

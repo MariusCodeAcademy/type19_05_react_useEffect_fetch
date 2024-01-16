@@ -41,14 +41,6 @@ export default function Posts() {
       <ul className='grid unlisted'>
         {postsArr.map((post) => (
           <SinglePost key={post.id} post={post} />
-          // <li className='card' key={post.id}>
-          //   <p>postId: {post.id}</p>
-          //   <h3>{post.title}</h3>
-          //   <p>{post.body.slice(0, 85)}...</p>
-          //   <p>Likes: {post.reactions}</p>
-          //   <hr />
-          //   <TagsList list={post.tags} />
-          // </li>
         ))}
       </ul>
     </div>

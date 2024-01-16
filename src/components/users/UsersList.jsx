@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 
+const usersUrl = 'https://jsonplaceholder.typicode.com/users';
+
 export default function UsersList() {
   console.log('1. UsersList susikure');
+
+  const [error, setError] = useState('');
 
   // parisiusti duomenis is api
   // 1. sukurti state kur bus saugomi duomenys
@@ -12,14 +16,27 @@ export default function UsersList() {
   // useEffect(fn, [priklausomybiu masyvas])
   useEffect(() => {
     console.log('3. ivyko useEffect');
-
+    getUsers();
     // fetch https://jsonplaceholder.typicode.com/users
-    // parsiusti ir iskonsolinti
-    // ideti juosi usersArr
+    function getUsers() {
+      fetch(usersUrl)
+        .then((resp) => resp.json())
+        .then((gotUserArr) => {
+          // parsiusti ir iskonsolinti
+          console.log('gotUserArr ===', gotUserArr);
+          // atnaujina komponeta(paleidzia is naujo)
+          // isimena kad usersArr atnaujintame komponente bus === gotUserArr
+          // ideti juosi usersArr
+          setUsersArr(gotUserArr);
+        })
+        .catch((error) => {
+          console.warn('ivyko klaida:', error);
+          setError('Ivyko klaida, bandykite veliau');
+        });
+    }
   }, []);
   // 3. atnaujinti state su gautais duomenimis
 
-  function getUsers() {}
   console.log('4. pries jsx');
   return (
     <div>
@@ -27,13 +44,19 @@ export default function UsersList() {
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem nobis aliquid
         dolores voluptate totam provident ipsa, nesciunt itaque maxime numquam reiciendis aperiam
-        quae labore, temporibus quasi ab. Doloribus sint id harum exercitationem aspernatur mollitia
-        numquam odio ea sit assumenda soluta expedita reiciendis rem distinctio accusamus similique
-        perspiciatis, quibusdam facilis neque!
+        quae labore, temporibus quasi ab. aspernatur mollitia numquam odio ea sit assumenda soluta
+        expedita reiciendis rem distinctio accusamus similique perspiciatis, quibusdam facilis
+        neque!
       </p>
+      {error && <h3>{error}</h3>}
+      {usersArr.length === 0 && <h3>No users found</h3>}
       <ul>
-        <li>user1</li>
-        <li>user2</li>
+        {usersArr.map((uObj) => (
+          <li key={uObj.id}>
+            <h3>{uObj.name}</h3>
+            <p>{uObj.email}</p>
+          </li>
+        ))}
       </ul>
     </div>
   );

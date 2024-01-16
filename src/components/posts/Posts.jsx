@@ -1,6 +1,8 @@
 // parsiusti ir sugeneruoti sarasa https://jsonplaceholder.typicode.com/posts
 
 import { useEffect, useState } from 'react';
+import TagsList from './TagsList';
+import SinglePost from './SinglePost';
 
 export default function Posts() {
   const [postsArr, setPostsArr] = useState([]);
@@ -38,21 +40,15 @@ export default function Posts() {
       <h2>Posts</h2>
       <ul className='grid unlisted'>
         {postsArr.map((post) => (
-          <li className='card' key={post.id}>
-            <p>postId: {post.id}</p>
-            <h3>{post.title}</h3>
-            <p>{post.body.slice(0, 85)}...</p>
-            <p>Likes: {post.reactions}</p>
-            <hr />
-            <h4>Tags</h4>
-            <ul className='unlisted flex f-wrap'>
-              {post.tags.map((tag) => (
-                <li key={tag} className='tag'>
-                  {tag}
-                </li>
-              ))}
-            </ul>
-          </li>
+          <SinglePost key={post.id} post={post} />
+          // <li className='card' key={post.id}>
+          //   <p>postId: {post.id}</p>
+          //   <h3>{post.title}</h3>
+          //   <p>{post.body.slice(0, 85)}...</p>
+          //   <p>Likes: {post.reactions}</p>
+          //   <hr />
+          //   <TagsList list={post.tags} />
+          // </li>
         ))}
       </ul>
     </div>

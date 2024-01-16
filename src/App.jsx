@@ -1,3 +1,4 @@
+import Posts from './components/posts/Posts';
 import UsersList from './components/users/UsersList';
 import './styles/App.css';
 
@@ -7,7 +8,8 @@ export default function App() {
     <div className='App container'>
       <h1>Hello, world!</h1>
       <hr />
-      <UsersList />
+      {false && <UsersList />}
+      <Posts />
     </div>
   );
 }

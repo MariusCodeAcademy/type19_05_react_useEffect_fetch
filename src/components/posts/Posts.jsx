@@ -5,7 +5,7 @@ import SinglePost from './SinglePost';
 
 export default function Posts() {
   const [postsArr, setPostsArr] = useState([]);
-  const [selectValue, setSelectValue] = useState('10');
+  const [selectValue, setSelectValue] = useState('');
   console.log('selectValue ===', selectValue);
   // getPosts(); // gausim infinite loop jei getPosts keicia state
 
@@ -23,6 +23,7 @@ export default function Posts() {
 
   function showOnly5() {
     console.log('showOnly5');
+    setSelectValue(7);
     // pasidaryti kopija
     // su splice kukirpti ir palikti tik 5
 
@@ -30,8 +31,8 @@ export default function Posts() {
     // sukti foreach ir sudeti tik pirmus 5 i nauja masyva
 
     // arr.slice(0, 5)
-    const pirmi5 = postsArr.slice(0, 5);
-    setPostsArr(pirmi5);
+    // const pirmi5 = postsArr.slice(0, 5);
+    // setPostsArr(pirmi5);
 
     // arr.filter()
   }
@@ -61,17 +62,22 @@ export default function Posts() {
   function handleSelectFilter(e) {
     console.log('handleSelectFilter e.target.value ===', e.target.value);
     let reiksme = e.target.value;
-    if (reiksme === '5') {
-      showOnly5();
-    }
+    setSelectValue(reiksme);
+    // if (reiksme === '5') {
+    //   showOnly5();
+    // }
   }
+
+  const filteredPosts = selectValue ? postsArr.slice(0, selectValue) : postsArr;
+  console.log('postsArr ===', postsArr);
 
   return (
     <div>
       <h2>Posts</h2>
       <h2>tai kas ivesta: </h2>
+      <h2>filterON: {selectValue}</h2>
       <fieldset className='flex'>
-        <legend>Filters</legend>
+        <legend>Filters </legend>
         <button onClick={sortByLikes} className='btn'>
           Most liked posts
         </button>
@@ -80,16 +86,16 @@ export default function Posts() {
         </button>
         <input onChange={handleInput} type='text' placeholder='kazkas' />
         <select onChange={handleSelectFilter} value={selectValue}>
-          <option disabled value=''>
-            How many to show
-          </option>
+          <option disabled>How many to show</option>
+          <option value=''>all</option>
           <option value='5'>5 posts</option>
           <option value='10'>10 posts</option>
           <option value='15'>15 posts</option>
         </select>
       </fieldset>
       <ul className='grid unlisted'>
-        {postsArr.map((post) => (
+        {/* {postsArr.slice(0, selectValue || 30).map((post) => ( */}
+        {filteredPosts.map((post) => (
           <SinglePost key={post.id} post={post} />
         ))}
       </ul>
